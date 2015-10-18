@@ -1,0 +1,16 @@
+<ion-view view-title="Register" name="register-view">
+    <ion-content class="padding">
+        <div class="list list-inset">
+            <p>Username:</p>
+            <label class="item item-input">
+                <input type="text" placeholder="" ng-model="data.regUsername">
+            </label>
+            <br>
+            <p>Password:</p>
+            <label class="item item-input">
+                <input type="password" placeholder="" ng-model="data.regPassword">
+            </label>
+        </div>
+        <button class="button button-block energized-bg energized-border" ng-click="registerClick()">Register</button>
+    </ion-content>
+</ion-view>
