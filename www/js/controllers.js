@@ -48,6 +48,9 @@ angular.module('starter.controllers', [])
 .controller('Top10Ctrl', function($scope, ScoresService) {
     $scope.top10Scores = ScoresService.getTop10Scores();
     $scope.top10Names = ScoresService.getTop10Names();
-//    console.log($scope.top10Scores);
-    console.log($scope.top10Names);
+    $scope.top10 = new Array();
+    for(var i = 0; i < $scope.top10Scores.length; i++) {
+        $scope.top10.push($scope.top10Names[i].name, $scope.top10Scores[i].score);
+    }
+    console.log($scope.top10);
 });
