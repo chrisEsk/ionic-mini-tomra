@@ -1,7 +1,8 @@
 angular.module('starter.services', [])
 
-.service('LoginService', function($q, Users) {
+.service('LoginService', function($q, Users, Scores) {
     var userLogged = null;
+    var userScore = null;
 
     return {
         loginUser: function(name, pw) {
@@ -15,8 +16,10 @@ angular.module('starter.services', [])
                 pw: pw
             };
             var profileFetched = Users.verifyUser(user);
+            var scoreFetch = Scores.getUserScore(profileFetched.id);
             if (profileFetched != null) {
                 userLogged = profileFetched;
+                userScore = scoreFetch;
                 deferred.resolve('Welcome ' + name + '!');
             } else {
                 deferred.reject('Wrong credentials.');
@@ -34,6 +37,10 @@ angular.module('starter.services', [])
         getProfileInfo: function() {
             console.log(userLogged);
             return userLogged;
+        },
+        getUserScore: function() {
+            console.log(userScore);
+            return userScore;
         }
     }
 
@@ -79,13 +86,30 @@ angular.module('starter.services', [])
     }
 })
 
+.service('ScoresService', function($q, Scores, Users) {
+    var top10Scores = null;
+    var top10Names = [];
+    return {
+        getTop10Scores: function() {
+            top10Scores = Scores.getTop10Scores();
+            return top10Scores;
+        }, 
+        getTop10Names: function() {
+            for(var i = 0; i < top10Scores.length; i++) {
+                top10Names.push(Users.getById(i + 1));
+            }
+            return top10Names;
+        }
+    }
+})
+
 .factory('Users', function() {
     var service = {};
 
     service.entries = [{
         "id": 1,
         "name": "user",
-        "pw": "secret"
+        "pw": "123"
     }, {
         "id": 2,
         "name": "user2",
@@ -108,6 +132,16 @@ angular.module('starter.services', [])
         }
         return null;
     }
+
+    service.getById = function(id) {
+        for (var i = 0; i < service.entries.length; i++) {
+            if (service.entries[i].id == id) {
+                return service.entries[i];
+            }
+        }
+        return null;
+    }
+
     return service;
 })
 
@@ -127,6 +161,25 @@ angular.module('starter.services', [])
         "id": 4,
         "score": 100
     }];
+
+    service.getUserScore = function(id) {
+        for (var i = 0; i < service.entries.length; i++) {
+            if (service.entries[i].id == id) {
+                return service.entries[i];
+            }
+        }
+        return null;
+    }
+
+    service.getTop10Scores = function() {
+        var top10Scores = [];
+        for (var i = 0; i < 10; i++) {
+            if (service.entries[i] != null) {
+                top10Scores.push(service.entries[i]);
+            }
+        }
+        return top10Scores;
+    }
 
     return service;
 });

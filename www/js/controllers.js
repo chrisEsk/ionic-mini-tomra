@@ -21,9 +21,9 @@ angular.module('starter.controllers', [])
     }
 })
 
-
 .controller('DashCtrl', function($scope, LoginService) {
     $scope.userSession = LoginService.getProfileInfo();
+    $scope.userScore = LoginService.getUserScore();
 })
 
 .controller('RegisterCtrl', function($scope, $ionicPopup, $state, RegisterService) {
@@ -43,4 +43,11 @@ angular.module('starter.controllers', [])
             });
         });
     }
+})
+
+.controller('Top10Ctrl', function($scope, ScoresService) {
+    $scope.top10Scores = ScoresService.getTop10Scores();
+    $scope.top10Names = ScoresService.getTop10Names();
+//    console.log($scope.top10Scores);
+    console.log($scope.top10Names);
 });
