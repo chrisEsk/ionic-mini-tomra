@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 
-.controller('LoginCtrl', function($scope, LoginService, $ionicPopup, $state, $window) {
+.controller('LoginCtrl', function($scope, LoginService, $ionicPopup, $state) {
     $scope.data = {};
     $scope.userSession = null;
 
@@ -26,9 +26,17 @@ angular.module('starter.controllers', [])
     $scope.userScore = LoginService.getUserScore();
 })
 
+.controller('RecycleCtrl', function($scope, ScoresService, LoginService) { 
+    $scope.data = {points:0};
+    $scope.recycleBtn = function() {
+        $scope.userSession = LoginService.getProfileInfo();
+        ScoresService.addPoints($scope.userSession, $scope.data.points);
+    }
+    
+})
+
 .controller('RegisterCtrl', function($scope, $ionicPopup, $state, RegisterService) {
     $scope.data = {};
-    console.log('Talking with the Register controller...');
     $scope.registerClick = function() {
         RegisterService.registerUser($scope.data.regUsername, $scope.data.regPassword).success(function(data) {
             var alertPopup = $ionicPopup.alert({
@@ -45,12 +53,15 @@ angular.module('starter.controllers', [])
     }
 })
 
-.controller('Top10Ctrl', function($scope, ScoresService) {
+.controller('Top10Ctrl', function($scope, ScoresService, ) {
     $scope.top10Scores = ScoresService.getTop10Scores();
     $scope.top10Names = ScoresService.getTop10Names();
-    $scope.top10 = new Array();
+    $scope.top10 = [];
     for(var i = 0; i < $scope.top10Scores.length; i++) {
-        $scope.top10.push($scope.top10Names[i].name, $scope.top10Scores[i].score);
+        var record = {name:"",score:""};
+        record.name = $scope.top10Names[i].name;
+        record.score = $scope.top10Scores[i].score;
+        $scope.top10.push(record);
     }
     console.log($scope.top10);
 });

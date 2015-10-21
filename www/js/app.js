@@ -59,7 +59,17 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
             }
         }
     })
-    
+
+    .state('tab.recycle', {
+        url: '/recycle',
+        views: {
+            'tab-recycle': {
+                templateUrl: 'templates/tab-recycle.html',
+                controller: 'RecycleCtrl'
+            }
+        }
+    })
+
     .state('tab.top10', {
         url: '/top10',
         views: {

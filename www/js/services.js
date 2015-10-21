@@ -9,8 +9,6 @@ angular.module('starter.services', [])
             var deferred = $q.defer();
             var promise = deferred.promise;
 
-            console.log(Users.entries);
-
             var user = {
                 name: name,
                 pw: pw
@@ -35,11 +33,9 @@ angular.module('starter.services', [])
             return promise;
         },
         getProfileInfo: function() {
-            console.log(userLogged);
             return userLogged;
         },
         getUserScore: function() {
-            console.log(userScore);
             return userScore;
         }
     }
@@ -93,12 +89,16 @@ angular.module('starter.services', [])
         getTop10Scores: function() {
             top10Scores = Scores.getTop10Scores();
             return top10Scores;
-        }, 
+        },
         getTop10Names: function() {
-            for(var i = 0; i < top10Scores.length; i++) {
+            for (var i = 0; i < top10Scores.length; i++) {
                 top10Names.push(Users.getById(i + 1));
             }
             return top10Names;
+        },
+        addPoints: function(user, points) {
+            var newEntrie = Scores.addPoints(user, points);
+            console.log(newEntrie);
         }
     }
 })
@@ -179,6 +179,18 @@ angular.module('starter.services', [])
             }
         }
         return top10Scores;
+    }
+
+    service.addPoints = function(userSession, pointsToAdd) {
+        for (var i = 0; i < service.entries.length; i++) {
+            var entrie = service.entries[i];
+            if (entrie.id == userSession.id) {
+                var points = entrie.score + Number.parseInt(pointsToAdd);
+                entrie.score = points;
+                return entrie;
+            }
+        }
+        return null;
     }
 
     return service;
