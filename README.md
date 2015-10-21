@@ -1,3 +1,6 @@
 # ionic-mini-tomra
 
-Learning some Ionic + AngularJS and Sass
+Learning some Ionic + AngularJS + Cordova
+
+
+> ionic serve
