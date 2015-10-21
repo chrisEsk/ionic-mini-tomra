@@ -53,7 +53,7 @@ angular.module('starter.controllers', [])
     }
 })
 
-.controller('Top10Ctrl', function($scope, ScoresService, ) {
+.controller('Top10Ctrl', function($scope, ScoresService) {
     $scope.top10Scores = ScoresService.getTop10Scores();
     $scope.top10Names = ScoresService.getTop10Names();
     $scope.top10 = [];
