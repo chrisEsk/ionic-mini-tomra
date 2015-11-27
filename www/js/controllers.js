@@ -26,7 +26,7 @@ angular.module('starter.controllers', [])
     $scope.userScore = LoginService.getUserScore();
 })
 
-.controller('RecycleCtrl', function ($scope, ScoresService, LoginService, $ionicPopup) {
+.controller('RecycleCtrl', function ($scope, ScoresService, LoginService, $ionicPopup, $cordovaBarcodeScanner) {
     
 //    $cordovaBarcodeScanner
     $scope.data = {
@@ -41,15 +41,15 @@ angular.module('starter.controllers', [])
         });
     }
 
-//    $scope.scanBarcode = function () {
-//        $cordovaBarcodeScanner.scan().then(function (imageData) {
-//            alert(imageData.text);
-//            console.log("Barcode Format -> " + imageData.format);
-//            console.log("Cancelled -> " + imageData.cancelled);
-//        }, function (error) {
-//            console.log("An error happened -> " + error);
-//        });
-//    };
+    $scope.scanBarcode = function () {
+        $cordovaBarcodeScanner.scan().then(function (imageData) {
+            alert(imageData.text);
+            console.log("Barcode Format -> " + imageData.format);
+            console.log("Cancelled -> " + imageData.cancelled);
+        }, function (error) {
+            console.log("An error happened -> " + error);
+        });
+    };
 
 })
 
@@ -89,4 +89,11 @@ angular.module('starter.controllers', [])
         console.log($scope.top10);
     }
 
+})
+
+.controller('PrizesCtrl', function ($scope, $ionicPopup, $state, PrizeService, LoginService) {
+    $scope.init = function () {
+        $scope.userScore = LoginService.getUserScore();
+        $scope.userPrizes = PrizeService.getUserPrizes(userScore.score);
+    }
 });

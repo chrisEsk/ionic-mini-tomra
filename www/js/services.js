@@ -1,8 +1,9 @@
 angular.module('starter.services', [])
 
-.service('LoginService', function($q, Users, Scores) {
+.service('LoginService', function($q, Users, Scores, Prizes) {
     var userLogged = null;
     var userScore = null;
+    var userPrizes = null;
 
     return {
         loginUser: function(name, pw) {
@@ -15,9 +16,11 @@ angular.module('starter.services', [])
             };
             var profileFetched = Users.verifyUser(user);
             var scoreFetch = Scores.getUserScore(profileFetched.id);
+            var prizeFetch = Prizes.getUserPrizes(scoreFetch);
             if (profileFetched != null) {
                 userLogged = profileFetched;
                 userScore = scoreFetch;
+                userPrizes = prizeFetch;
                 deferred.resolve('Welcome ' + name + '!');
             } else {
                 deferred.reject('Wrong credentials.');
@@ -37,6 +40,9 @@ angular.module('starter.services', [])
         },
         getUserScore: function() {
             return userScore;
+        },
+        getUserPrizes: function () {
+            return userPrizes;
         }
     }
 
@@ -99,6 +105,21 @@ angular.module('starter.services', [])
         addPoints: function(user, points) {
             var newEntrie = Scores.addPoints(user, points);
             console.log(newEntrie);
+        }
+    }
+})
+
+.service('PrizeService', function($q, Prizes) {
+    var prizesAcquired = [];
+    return {
+        getUserPrizes: function(score) {
+            var countPrizes = Prizes.get();
+            for (var i = 0; i < countPrizes.length; i++) {
+                if ( score >= Prizes.getById(i + 1).value ) {
+                    prizesAcquired.push(Prizes.getById(i + 1));
+                }
+            }
+            return prizesAcquired;
         }
     }
 })
@@ -194,4 +215,58 @@ angular.module('starter.services', [])
     }
 
     return service;
+})
+
+.factory('Activities', function() {
+    var service = {};
+
+    service.entries = [{
+        "id": 1,
+        "name": "Actividad 1",
+        "desc": "Descripción Actividad 1..."
+    }, {
+        "id": 2,
+        "name": "Actividad 2",
+        "desc": "Descripción Actividad 2..."
+    }, {
+        "id": 3,
+        "name": "Actividad 3",
+        "desc": "Descripción Actividad 2..."
+    }];
+})
+
+.factory('Prizes', function() {
+    var service = {};
+
+    service.entries = [{
+        "id": 1,
+        "name": "Prize 1: Private",
+        "value": 0
+    }, {
+        "id": 2,
+        "name": "Prize 2: Corporal",
+        "value": 200
+    }, {
+        "id": 3,
+        "name": "Prize 3: Sargent",
+        "value": 500
+    }, {
+        "id": 4,
+        "name": "Prize 4: Capitan",
+        "value": 1000
+    }];
+
+
+    service.get = function() {
+        return service.entries;
+    }
+
+    service.getById = function(id) {
+        for (var i = 0; i < service.entries.length; i++) {
+            if (service.entries[i].id == id) {
+                return service.entries[i];
+            }
+        }
+        return null;
+    }
 });
