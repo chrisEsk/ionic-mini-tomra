@@ -3,7 +3,6 @@ angular.module('starter.services', [])
 .service('LoginService', function($q, Users, Scores, Prizes) {
     var userLogged = null;
     var userScore = null;
-    var userPrizes = null;
 
     return {
         loginUser: function(name, pw) {
@@ -16,11 +15,9 @@ angular.module('starter.services', [])
             };
             var profileFetched = Users.verifyUser(user);
             var scoreFetch = Scores.getUserScore(profileFetched.id);
-            var prizeFetch = Prizes.getUserPrizes(scoreFetch);
             if (profileFetched != null) {
                 userLogged = profileFetched;
                 userScore = scoreFetch;
-                userPrizes = prizeFetch;
                 deferred.resolve('Welcome ' + name + '!');
             } else {
                 deferred.reject('Wrong credentials.');
@@ -40,9 +37,6 @@ angular.module('starter.services', [])
         },
         getUserScore: function() {
             return userScore;
-        },
-        getUserPrizes: function () {
-            return userPrizes;
         }
     }
 
@@ -113,13 +107,7 @@ angular.module('starter.services', [])
     var prizesAcquired = [];
     return {
         getUserPrizes: function(score) {
-            var countPrizes = Prizes.getEntries();
-            console.log(countPrizes);
-            for (var i = 0; i < countPrizes.length; i++) {
-                if ( score >= Prizes.getById(i + 1).value ) {
-                    prizesAcquired.push(Prizes.getById(i + 1));
-                }
-            }
+            prizesAcquired = Prizes.getUserPrizes(score);
             return prizesAcquired;
         }
     }
@@ -268,6 +256,7 @@ angular.module('starter.services', [])
 
     service.getUserPrizes = function(score) {
         var prizesAcquired = [];
+        console.log("ITS HAPPENING");
         for (var i = 0; i < service.entries.length; i++) {
             if ( score >= service.getById(i + 1).value ) {
                 prizesAcquired.push(service.entries[i]);
