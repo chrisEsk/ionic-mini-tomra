@@ -4,7 +4,7 @@
             <div class="item item-divider">Prizes Unlocked:</div>
             <div class="item item-body">
                 <div ng-repeat="prizes in userPrizes">
-                    {{prizes.name}}
+                    {($index + 1)}}. {{prizes.name}}
                     <hr>
                 </div>
             </div>
