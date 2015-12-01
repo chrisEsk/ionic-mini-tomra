@@ -43,7 +43,7 @@ angular.module('starter.controllers', [])
     $scope.scanBarcode = function() {
         $cordovaBarcodeScanner.scan().then(function(imageData) {
             $scope.userSession = LoginService.getProfileInfo();
-            ScoresService.addPoints($scope.userSession, Number.parseInt(imageData.text);
+            ScoresService.addPoints($scope.userSession, Number.parseInt(imageData.text));
             var alertPopup = $ionicPopup.alert({
                 title: 'Points Added!',
                 template: Number.parseInt(imageData.text) + ' points added.'
