@@ -113,7 +113,8 @@ angular.module('starter.services', [])
     var prizesAcquired = [];
     return {
         getUserPrizes: function(score) {
-            var countPrizes = Prizes.get();
+            var countPrizes = Prizes.getEntries();
+            console.log(countPrizes);
             for (var i = 0; i < countPrizes.length; i++) {
                 if ( score >= Prizes.getById(i + 1).value ) {
                     prizesAcquired.push(Prizes.getById(i + 1));
@@ -233,10 +234,14 @@ angular.module('starter.services', [])
         "name": "Actividad 3",
         "desc": "Descripción Actividad 2..."
     }];
-})
+
+    return service;
+
+    })
 
 .factory('Prizes', function() {
     var service = {};
+    var prizesAcquired = [];
 
     service.entries = [{
         "id": 1,
@@ -257,8 +262,19 @@ angular.module('starter.services', [])
     }];
 
 
-    service.get = function() {
+    service.getEntries = function() {
         return service.entries;
+    }
+
+    service.getUserPrizes = function(score) {
+        var countPrizes = [];
+        console.log(countPrizes);
+        for (var i = 0; i < countPrizes.length; i++) {
+            if ( score >= Prizes.getById(i + 1).value ) {
+                prizesAcquired.push(Prizes.getById(i + 1));
+            }
+        }
+        return prizesAcquired;
     }
 
     service.getById = function(id) {
@@ -269,4 +285,5 @@ angular.module('starter.services', [])
         }
         return null;
     }
+    return service;
 });

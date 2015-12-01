@@ -93,7 +93,9 @@ angular.module('starter.controllers', [])
 
 .controller('PrizesCtrl', function ($scope, $ionicPopup, $state, PrizeService, LoginService) {
     $scope.init = function () {
-        $scope.userScore = LoginService.getUserScore();
-        $scope.userPrizes = PrizeService.getUserPrizes(userScore.score);
+        //$scope.userSession = LoginService.getProfileInfo();
+        //$scope.userScore = LoginService.getUserScore();
+        //console.log($scope.userScore);
+        //$scope.userPrizes = PrizeService.getUserPrizes(userScore.score);
     }
 });
