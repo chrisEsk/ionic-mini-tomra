@@ -26,9 +26,7 @@ angular.module('starter.controllers', [])
     $scope.userScore = LoginService.getUserScore();
 })
 
-.controller('RecycleCtrl', function ($scope, ScoresService, LoginService, $ionicPopup, $cordovaBarcodeScanner) {
-    
-//    $cordovaBarcodeScanner
+.controller('RecycleCtrl', function ($scope, $state, ScoresService, LoginService, $ionicPopup, $cordovaBarcodeScanner) {
     $scope.data = {
         points: 0
     };
@@ -39,6 +37,7 @@ angular.module('starter.controllers', [])
             title: 'Points Added!',
             template: Number.parseInt($scope.data.points) + ' points added.'
         });
+        $state.go('tab.dash');
     }
 
     $scope.scanBarcode = function () {
@@ -86,16 +85,11 @@ angular.module('starter.controllers', [])
             record.score = $scope.top10Scores[i].score;
             $scope.top10.push(record);
         }
-        console.log($scope.top10);
     }
 
 })
 
 .controller('PrizesCtrl', function ($scope, $ionicPopup, $state, PrizeService, LoginService) {
-    $scope.init = function () {
-        //$scope.userSession = LoginService.getProfileInfo();
-        //$scope.userScore = LoginService.getUserScore();
-        //console.log($scope.userScore);
-        //$scope.userPrizes = PrizeService.getUserPrizes(userScore.score);
-    }
+    $scope.userScore = LoginService.getUserScore();
+    $scope.userPrizes = PrizeService.getUserPrizes($scope.userScore.score);
 });

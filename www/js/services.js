@@ -245,19 +245,19 @@ angular.module('starter.services', [])
 
     service.entries = [{
         "id": 1,
-        "name": "Prize 1: Private",
+        "name": "Prize 1: Private - UNLOCKED ✓",
         "value": 0
     }, {
         "id": 2,
-        "name": "Prize 2: Corporal",
+        "name": "Prize 2: Corporal - UNLOCKED ✓",
         "value": 200
     }, {
         "id": 3,
-        "name": "Prize 3: Sargent",
+        "name": "Prize 3: Sargent - UNLOCKED ✓",
         "value": 500
     }, {
         "id": 4,
-        "name": "Prize 4: Capitan",
+        "name": "Prize 4: Capitan - UNLOCKED ✓",
         "value": 1000
     }];
 
@@ -267,11 +267,10 @@ angular.module('starter.services', [])
     }
 
     service.getUserPrizes = function(score) {
-        var countPrizes = [];
-        console.log(countPrizes);
-        for (var i = 0; i < countPrizes.length; i++) {
-            if ( score >= Prizes.getById(i + 1).value ) {
-                prizesAcquired.push(Prizes.getById(i + 1));
+        var prizesAcquired = [];
+        for (var i = 0; i < service.entries.length; i++) {
+            if ( score >= service.getById(i + 1).value ) {
+                prizesAcquired.push(service.entries[i]);
             }
         }
         return prizesAcquired;
